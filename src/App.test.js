@@ -39,7 +39,7 @@ describe('Componente principal', () => {
                 valor: 50
             }
 
-            const saqueSaldo = calcularNovoSaldo(valores, 100)
+            const saqueSaldo = calcularNovoSaldo(valores, 100) // usa uma função pura com os parâmetros necessários
             expect(saqueSaldo).toBe(50)
         })
         it('que é um depósito, o valor vai aumentar', () => {
@@ -48,7 +48,7 @@ describe('Componente principal', () => {
                 valor: 10
             }
             
-            const depositoSaldo = calcularNovoSaldo(valores, 50)
+            const depositoSaldo = calcularNovoSaldo(valores, 50) // usa uma função pura com os parâmetros necessários
             expect(depositoSaldo).toBe(40)
         })
     }) //Fim - Quando eu realizo uma transação
