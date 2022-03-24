@@ -31,6 +31,5 @@ describe('Componente principal', () => {
            render(<App />)
            expect(screen.getByText('Realizar operação')).toBeInTheDocument()
         })
-
-    })
+    }) //Fim - Quando eu abro o app do banco
 })
