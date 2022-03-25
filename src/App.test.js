@@ -1,6 +1,7 @@
 import React from 'react'
-import {render, screen} from '@testing-library/react'
+import {render, screen, fireEvent} from '@testing-library/react'
 import App, {calcularNovoSaldo} from './App'
+//import { fireEvent } from '@testing-library/react/dist/pure'
 
 describe('Componente principal', () => {
     describe('Quando eu abro o app do banco', () =>{
@@ -41,6 +42,36 @@ describe('Componente principal', () => {
 
             const saqueSaldo = calcularNovoSaldo(valores, 100) // usa uma função pura com os parâmetros necessários
             expect(saqueSaldo).toBe(50)
+        })
+        it('que é um saque, a transação deve ser realizada', () => {
+            const {getByText, getByLabelText, getByTestId} = render(<App />)
+
+            const saldo = getByText('R$ 1000')
+            const transacao = getByLabelText('Saque')
+            const valor = getByTestId('valor')
+            const btnTransacao = getByText('Realizar operação')
+            
+            expect(saldo.textContent).toBe('R$ 1000')
+            fireEvent.click(transacao, {target: {value: 'saque'}})
+            fireEvent.change(valor, {target: {value: 10}})
+            fireEvent.click(btnTransacao)
+            
+            expect(saldo.textContent).toBe('R$ 990')
+        })
+        it('que é um saque, saque com um valor a mais', () => {
+            const {getByText, getByLabelText, getByTestId} = render(<App />)
+
+            const saldo = getByText('R$ 1000')
+            const transacao = getByLabelText('Saque')
+            const valor = getByTestId('valor')
+            const btnTransacao = getByText('Realizar operação')
+
+            expect(saldo.textContent).toBe('R$ 1000')
+            fireEvent.click(transacao, {target: {value: 'saque'}})
+            fireEvent.change(valor, {target: {value: 1100}})
+            fireEvent.click(btnTransacao)
+
+            expect(saldo.textContent).toBe('R$ -100')
         })
         it('que é um depósito, o valor vai aumentar', () => {
             const valores = {
